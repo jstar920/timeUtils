@@ -1,5 +1,5 @@
 #include "Duration.h"
-#include "timeFunction.h"
+#include "TimeFunction.h"
 
 namespace timeutils
 {

@@ -1,4 +1,4 @@
-#include "timeFunction.h"
+#include "TimeFunction.h"
 namespace timeutils
 {
     GetSteadyClockNow TimeFunction::sGetSteadyClockNow = std::chrono::steady_clock::now;
@@ -10,5 +10,15 @@ namespace timeutils
     GetSteadyClockNow TimeFunction::getGetSteadyClockNow()
     {
         return sGetSteadyClockNow;
+    }
+
+    void TimeFunction::setGetSystemClockNow(const GetSystemClockNow& func)
+    {
+        sGetSystemClockNow = func;
+    }
+
+    GetSystemClockNow TimeFunction::getGetSystemClockNow()
+    {
+        return sGetSystemClockNow;
     }
 }
