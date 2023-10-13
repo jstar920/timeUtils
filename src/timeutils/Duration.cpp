@@ -4,7 +4,7 @@
 namespace timeutils
 {
     Duration::Duration(const std::function<void(const uint64_t& msSecond)>& handle)
-    : startTime_(std::chrono::steady_clock::now())
+    : startTime_(TimeFunction::getGetSteadyClockNow() ? TimeFunction::getGetSteadyClockNow()() : std::chrono::steady_clock::now())
     , lastCheckTime_(startTime_)
     , totalDurationHandle_(handle)
     {}

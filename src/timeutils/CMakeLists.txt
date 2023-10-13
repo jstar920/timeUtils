@@ -15,7 +15,7 @@ add_library(timeutils_static STATIC ${TIMEUTILS_HEADERS} ${TIMEUTILS_SOURCES})
 set_property(TARGET timeutils PROPERTY FOLDER ${PRJECT_LIBRARIES_DIR})
 set_property(TARGET timeutils_static PROPERTY FOLDER ${PRJECT_LIBRARIES_DIR})
 target_include_directories(timeutils_static PUBLIC ".")
-target_link_libraries(timeutils_static PUBLIC type_traits)
+#target_link_libraries(timeutils_static PUBLIC type_traits)
 
 install (TARGETS timeutils
          RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/_install

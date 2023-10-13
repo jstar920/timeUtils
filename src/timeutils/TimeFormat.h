@@ -17,7 +17,7 @@ namespace timeutils
         HOURMINUTE,
     };
 
-    bool shouldShowMs(TimeFormatType type) {
+    static inline bool shouldShowMs(TimeFormatType type) {
         return (type == TimeFormatType::ISO_8601_UTC_MS);
     }
 

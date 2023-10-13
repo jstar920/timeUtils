@@ -22,9 +22,10 @@ namespace timeutils
         auto getSystemClockNow = TimeFunction::getGetSystemClockNow();
         const auto current = getSystemClockNow ? getSystemClockNow() : std::chrono::system_clock::now();
         const auto timeStampS = std::chrono::duration_cast<std::chrono::seconds>(current.time_since_epoch()).count();
-        std::tm* tm = std::gmtime(&timeStampS);
+        std::tm tm;
+        gmtime_s(&tm, &timeStampS);
         char buffer[80];
-        const auto localTimeStr = std::strftime(buffer, sizeof(buffer), fmt(type), tm);
+        const auto localTimeStr = std::strftime(buffer, sizeof(buffer), fmt(type), &tm);
         return std::string(buffer);
 
         if (shouldShowMs(type))
