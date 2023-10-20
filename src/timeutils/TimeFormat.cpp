@@ -17,9 +17,55 @@ namespace timeutils
 
     const char* TimeFormat::PlaceHolder3_Str = "#!@";
 
-    const char* fmt(TimeFormatType type)
+    std::unordered_map<int, std::string> TimeFormat::sFmtPlaceHolders {
+        {ISO_8601_UTC_MS, PlaceHolder3_Str}
+    };
+    const char* TimeFormat::getFmtPlaceHolder(int fmtType)
     {
-        switch (type)
+        const auto it = sFmtPlaceHolders.find(fmtType);
+        if (it != sFmtPlaceHolders.cend())
+        {
+            return it->second.c_str();
+        }
+
+        return "";
+    }
+
+    void TimeFormat::registerFmtPlaceHolder(int fmtType, const std::string& placeHolder)
+    {
+        sFmtPlaceHolders[fmtType] = placeHolder;
+    }
+
+    std::unordered_map<int, std::string> TimeFormat::sFmtStr {
+        { static_cast<int>(TimeFormatType::ISO_8601_UTC), TimeFormat::ISO_8601_UTC_STR},
+        { static_cast<int>(TimeFormatType::ISO_8601_UTC_MS), TimeFormat::ISO_8601_UTC_MS_STR},
+        { static_cast<int>(TimeFormatType::HTTP_HEAD), TimeFormat::HTTP_HEAD_STR},
+        { static_cast<int>(TimeFormatType::LOG_TIMESTAMP), TimeFormat::LOG_TIMESTAMP_STR},
+        { static_cast<int>(TimeFormatType::FILENAME_TIMESTAMP), TimeFormat::FILENAME_TIMESTAMP_STR},
+        { static_cast<int>(TimeFormatType::DATABASE_TIMESTAMP), TimeFormat::DATABASE_TIMESTAMP_STR},
+        { static_cast<int>(TimeFormatType::CLOCK), TimeFormat::CLOCK_STR},
+        { static_cast<int>(TimeFormatType::DATE), TimeFormat::DATE_STR},
+        { static_cast<int>(TimeFormatType::YEARMONTH), TimeFormat::YEARMONTH_STR},
+        { static_cast<int>(TimeFormatType::HOURMINUTE), TimeFormat::HOURMINUTE_STR}
+    };
+
+    const char* TimeFormat::getFmtStr(int fmtType)
+    {
+        const auto it = sFmtStr.find(fmtType);
+        if (it != sFmtStr.cend())
+        {
+            return it->second.c_str();
+        }
+        return "";
+    }
+
+    void TimeFormat::registerFmtStr(int fmtType, const std::string& str)
+    {
+        sFmtStr[fmtType] = str;
+    }
+
+    {
+        switch (TimeFormatType(type))
         {
         case TimeFormatType::ISO_8601_UTC: return TimeFormat::ISO_8601_UTC_STR;
         case TimeFormatType::ISO_8601_UTC_MS: return TimeFormat::ISO_8601_UTC_MS_STR;
@@ -32,5 +78,7 @@ namespace timeutils
         case TimeFormatType::YEARMONTH: return TimeFormat::YEARMONTH_STR;
         case TimeFormatType::HOURMINUTE: return TimeFormat::HOURMINUTE_STR;
         }
+
+        return TimeFormat::getFmtStr(type);
     }
 }

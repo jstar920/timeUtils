@@ -1,5 +1,7 @@
 #pragma once
-#include <string_view>
+#include <unordered_map>
+#include <string>
+#include <functional>
 
 
 namespace timeutils
@@ -18,7 +20,8 @@ namespace timeutils
     };
 
     static inline bool shouldShowMs(TimeFormatType type) {
-        return (type == TimeFormatType::ISO_8601_UTC_MS);
+        return (type == TimeFormatType::ISO_8601_UTC_MS ||
+                type == TimeFormatType::LOG_TIMESTAMP);
     }
 
     struct TimeFormat
@@ -35,7 +38,25 @@ namespace timeutils
         static const char* HOURMINUTE_STR;
 
         static const char* PlaceHolder3_Str;
+
+        static const char* getFmtPlaceHolder(int fmtType);
+        static void registerFmtPlaceHolder(int fmtType, const std::string& placeHolder);
+
+        static const char* getFmtStr(int fmtType);
+        static void registerFmtStr(int fmtType, const std::string& str);
+    private:
+        static std::unordered_map<int, std::string> sFmtPlaceHolders;
+        static std::unordered_map<int, std::string> sFmtStr;
     };
 
-    const char* fmt(TimeFormatType type);
+    template<typename FmtType>
+    inline const char* fmt(FmtType type){
+        TimeFormat::getFmtStr(static_cast<int>(type));
+    }
+
+    template<typename FmtType>
+    inline const char* fmtPlaceHolder(FmtType type){
+        TimeFormat::getFmtPlaceHolder(static_cast<int>(type));
+    }
+
 }

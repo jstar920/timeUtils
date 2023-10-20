@@ -26,9 +26,9 @@ namespace timeutils
         gmtime_s(&tm, &timeStampS);
         char buffer[80];
         const auto localTimeStr = std::strftime(buffer, sizeof(buffer), fmt(type), &tm);
-        return std::string(buffer);
 
-        if (shouldShowMs(type))
+        const auto placeHolder = fmtPlaceHolder(type);
+        if (placeHolder)
         {
             const auto timeStampMs = std::chrono::duration_cast<std::chrono::milliseconds>(current.time_since_epoch()).count();
             char* pos = std::strstr(buffer, TimeFormat::PlaceHolder3_Str);
@@ -37,10 +37,13 @@ namespace timeutils
                 *pos = std::to_string(timeStampMs % 1000 / 100)[0];
                 *(pos + 1) = std::to_string(timeStampMs % 100 / 10)[0];
                 *(pos + 2) = std::to_string(timeStampMs % 10)[0];
-                *(pos + 3) = 0;
             }
         }
 
         return std::string(buffer);
+    }
+
+    std::string WallClock::getCurrentTimeUTCAsString(const std::string& strFormat)
+    {
     }
 }
