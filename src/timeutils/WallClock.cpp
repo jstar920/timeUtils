@@ -17,7 +17,7 @@ namespace timeutils
         return getCurrentTimeUTCAsString(TimeFormatType::LOG_TIMESTAMP);
     }
 
-    std::string WallClock::getCurrentTimeUTCAsString(TimeFormatType type)
+    std::string WallClock::getCurrentTimeUTCAsString(int type)
     {
         auto getSystemClockNow = TimeFunction::getGetSystemClockNow();
         const auto current = getSystemClockNow ? getSystemClockNow() : std::chrono::system_clock::now();
@@ -27,23 +27,12 @@ namespace timeutils
         char buffer[80];
         const auto localTimeStr = std::strftime(buffer, sizeof(buffer), fmt(type), &tm);
 
-        const auto placeHolder = fmtPlaceHolder(type);
-        if (placeHolder)
+        const auto handler = fmtPlaceHolderHandler(type);
+        if (handler)
         {
-            const auto timeStampMs = std::chrono::duration_cast<std::chrono::milliseconds>(current.time_since_epoch()).count();
-            char* pos = std::strstr(buffer, TimeFormat::PlaceHolder3_Str);
-            if (pos != nullptr && (pos - buffer) > 3)
-            {
-                *pos = std::to_string(timeStampMs % 1000 / 100)[0];
-                *(pos + 1) = std::to_string(timeStampMs % 100 / 10)[0];
-                *(pos + 2) = std::to_string(timeStampMs % 10)[0];
-            }
+            handler(buffer, current);
         }
 
         return std::string(buffer);
-    }
-
-    std::string WallClock::getCurrentTimeUTCAsString(const std::string& strFormat)
-    {
     }
 }

@@ -1,5 +1,6 @@
 #include "WallClock.h"
 #include "TimeSimulator.h"
+#include "TimeFormat.h"
 #include "assure.h"
 #include <thread>
 
@@ -35,6 +36,11 @@ TEST_CASE("WallClock", "WallClock")
     simulator.systemClockElapseDays(1);
     ASSURE_EQ(clock.getCurrentTimeUTCAsMs(), 24 * 3600000 + 3600000 + 60000 + 1000 + 1);
     ASSURE_EQ(clock.getCurrentTimeUTCAsLogTimestamp(), "1970-01-02T01:01:01.001Z");
+}
+
+TEST_CASE("WallClock_TestLog", "WallClock")
+{
+    TimeFormat::registerFmtStr(2, "");
 }
 
 

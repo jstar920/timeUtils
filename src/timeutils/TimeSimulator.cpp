@@ -29,7 +29,7 @@ namespace timeutils_simulator
              sGetSteadyClockNowList.pop_back();
              if (sGetSteadyClockNowList.size() != steadyClockNowFunctionSize_)
              {
-                 log_->log(timeutils::LogHandler::Warning, "steady clock is incorrect setting! you may set mutiple simulator");
+                 LOG_WARNING("steady clock is incorrect setting! you may set mutiple simulator");
              }
          }
 
@@ -39,7 +39,7 @@ namespace timeutils_simulator
              sGetSystemClockNowList.pop_back();
              if (sGetSystemClockNowList.size() != systemClockNowFunctionSize_)
              {
-                 log_->log(timeutils::LogHandler::Warning, "system clock is incorrect setting! you may set mutiple simulator");
+                 LOG_WARNING("system clock is incorrect setting! you may set mutiple simulator");
              }
          }
      }

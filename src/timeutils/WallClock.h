@@ -7,7 +7,13 @@ namespace timeutils
     {
         static uint64_t getCurrentTimeUTCAsMs();
         static std::string getCurrentTimeUTCAsLogTimestamp();
-        static std::string getCurrentTimeUTCAsString(TimeFormatType type);
-        static std::string getCurrentTimeUTCAsString(const std::string& strFormat);
+
+        template<typename FmtType>
+        static std::string getCurrentTimeUTCAsString(FmtType type) {
+            return getCurrentTimeUTCAsString(static_cast<int>(type));
+        }
+
+    private:
+        static std::string getCurrentTimeUTCAsString(int type);
     };
 }
